@@ -1,0 +1,36 @@
+Question:
+Given an array of integers, in each operation, merge the pair of adjacent elements with the smallest sum and replace them with their sum. Repeat until the array is sorted. Find the minimum number of operations required.
+
+
+code:
+class Solution {
+public:
+    int minimumPairRemoval(vector<int>& nums) {
+        int operations = 0;
+
+        // Jab tak array sorted nahi hota, operations perform karte raho
+        while (!is_sorted(nums.begin(), nums.end())) {
+            int minSum = INT_MAX;  // Minimum sum ko track karne ke liye
+            int minIndex = -1;     // Index track karne ke liye
+
+            // Array ke har adjacent pair ka sum find karo
+            for (int i = 0; i < nums.size() - 1; i++) {
+                int sum = nums[i] + nums[i + 1];
+
+                // Agar current sum sabse chhota hai to minIndex update karo
+                if (sum < minSum) {
+                    minSum = sum;
+                    minIndex = i;
+                }
+            }
+
+            // Sabse chhoti sum wali pair ko merge karke replace karna hai
+            nums[minIndex] = minSum; 
+            nums.erase(nums.begin() + minIndex + 1); // Dusra element remove karo
+
+            operations++;  // Ek operation complete ho gaya
+        }
+
+        return operations; // Minimum operations ka count return karo
+    }
+};

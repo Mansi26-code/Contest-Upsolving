@@ -143,3 +143,57 @@ class Solution {
 
         TC= O((m + n) * m * n)
         SC=O(1)
+
+
+
+
+
+
+
+
+
+
+        Intuition
+// Look closely at input and output .Now you get that you need the find total sum of grid. After getting total grid sum You need to see if you can make line at every row for that calculate each row sum then check if(2horizontalsum==totalsum).After that check column wise but you cant directly do that like horizontal sum so make a vector and store column wise sum in it then do again check vertically if we can draw line if(2leftsum ==totalsum) .
+
+// code
+
+class Solution {
+    public:
+        bool canPartitionGrid(vector<vector<int>>& grid) {
+            int row=grid.size();
+            int col=grid[0].size();
+            int rowhalf=row/2;
+            long long totalsum=0;
+            long long  horizontalsum=0; 
+            long long verticalsum=0;
+             // total sum of grid in sum
+            for(int i=0;i<row;i++){
+                for(int j=0;j<col;j++){
+                    totalsum+=grid[i][j];
+                }
+            }
+           
+            for(int i=0;i<row-1;i++){
+                for(int j=0;j<col;j++)
+                    horizontalsum+=grid[i][j];
+                if(2*horizontalsum==totalsum) return true;
+                
+            }
+            vector<long long>colSum(col,0);{
+            for(int i=0;i<col;i++){
+                for(int j=0;j<row;j++)
+                    colSum[i]+=grid[j][i];
+                }
+            }
+            long long leftsum=0;
+            for(int i=0;i<col-1;i++){           
+                leftsum+=colSum[i];
+                if(2*leftsum ==totalsum) return true;
+                
+            }
+             return false;
+                
+            
+        }
+    };
